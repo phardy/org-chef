@@ -73,6 +73,24 @@ This is a wrapper for url-retrieve-synchronously, which primarily serves to impl
 
     (url-retrieve-synchronously url)))
 
+(defun org-chef-capture-top-header ()
+  "Return top level annotation for capture template.
+
+This function is intended to work as an analogue for \"%a\" in org-mode capture
+templates. Given a tree structure like this:
+
+* foo
+  Some content.
+** bar
+   More content.
+*** baz
+    Third level content.
+
+org-chef-capture-top-header will always return a link to the foo header, no
+matter where in the tree the insertion point is currently."
+  (with-current-buffer (org-capture-get :original-buffer)
+    (while (org-up-heading-safe)())
+    (org-no-properties (org-store-link nil))))
 
 (provide 'org-chef-utils)
 ;;; org-chef-utils.el ends here
